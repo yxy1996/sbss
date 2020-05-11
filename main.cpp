@@ -5,11 +5,11 @@
 #include <pthread.h>
 // #include <ctime>
 // clock_t start,end;
-#define Input "/media/yxy/软件1/华为挑战赛/2020HuaweiCodecraft-TestData-master/3512444/test_data.txt"
+#define Input "/sbss/1004812/test_data.txt"
 //#define Input "/home/yxy/桌面/test_data.txt"
 //#define Input "/home/yxy/桌面/456.txt"
 
-#define Output "/media/yxy/软件1/华为挑战赛/pre_result/result.txt"
+#define Output "/sbss/result.txt"
 
 
 #define N 4200000
