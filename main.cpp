@@ -5,12 +5,17 @@
 #include <pthread.h>
 // #include <ctime>
 // clock_t start,end;
-#define Input "/sbss/test_data.txt"
-#define Output "/sbss/result.txt"
+#define Input "/media/yxy/软件1/华为挑战赛/2020HuaweiCodecraft-TestData-master/3512444/test_data.txt"
+//#define Input "/home/yxy/桌面/test_data.txt"
+//#define Input "/home/yxy/桌面/456.txt"
+
+#define Output "/media/yxy/软件1/华为挑战赛/pre_result/result.txt"
+
 
 #define N 4200000
 
 using namespace std;
+
 
 vector<pair<int,int> > map_record[N];
 vector<pair<int,int> > inverse_record[N]; 
@@ -18,7 +23,6 @@ int key_list[3][N];
 int key_list2[N];
 int key_list_check[3][N];
 vector<int> map;
-
 vector<vector<pair< pair<int, int>, int> > > visitA[N], visitB[N];
 
 struct yxy{
@@ -27,24 +31,26 @@ struct yxy{
   vector<vector<int > >* result;
 };
 
-void DeepSearch1(int p_start, int tmp){
+void DeepSearch1(int p_start, vector<pair<int,int> > tmp){
     visitA[p_start].resize(3);
+    sort(tmp.begin(),tmp.end());
+
     int index1, index2;
     
     for(int i=0;i<map_record[p_start].size();i++){
         index1 = map_record[p_start][i].first;
         
-        if (index1<=tmp)  continue;
+        if (index1<=tmp[0].first)  continue;
         
         visitA[p_start][0].push_back(make_pair(make_pair(index1,0), map_record[p_start][i].second)); 
         
         for(int j=0;j<map_record[index1].size();j++){
             index2 = map_record[index1][j].first;
-            if(index2==p_start || index2<=tmp)  continue;
+            if(index2==p_start || index2<=tmp[0].first)  continue;
             visitA[p_start][1].push_back(make_pair(make_pair(index2,index1), map_record[index1][j].second));
             
             for(int k=0;k<map_record[index2].size();k++){
-                if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp  ) continue;
+                if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp[0].first ) continue;
                 visitA[p_start][2].push_back(make_pair(make_pair(map_record[index2][k].first,index2), map_record[index2][k].second));   
 	        }
         }
@@ -255,7 +261,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
   
@@ -276,7 +282,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
 }
@@ -467,7 +473,7 @@ int main(int argc, char **argv) {
     line1 = (int)(0.25*sub_length);  //0, 0.0546
     line2 = (int)(0.5*sub_length);   //0.13
     line3 = (int)(0.75*sub_length); //0.2496
-    part1.start = 0; 		    part1.end = line1;         part1.result = result_1;
+    part1.start = 0; 		        part1.end = line1;         part1.result = result_1;
     part2.start = line1;		part2.end = line2;         part2.result = result_2;
     part3.start = line2;		part3.end = line3;         part3.result = result_3;
     part4.start = line3;		part4.end = sub_length;    part4.result = result_4;
@@ -484,12 +490,6 @@ int main(int argc, char **argv) {
     pthread_join(t4, NULL);
       
     //     clock_t start_4 = clock();
-
-    for(int i=0;i<5;i++) sort(result_1[i].begin(),result_1[i].end());
-    for(int i=0;i<5;i++) sort(result_2[i].begin(),result_2[i].end());
-    for(int i=0;i<5;i++) sort(result_3[i].begin(),result_3[i].end());
-    for(int i=0;i<5;i++) sort(result_4[i].begin(),result_4[i].end());
-
     //     end = clock();
     int sum=0;
     for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size();
@@ -526,4 +526,3 @@ int main(int argc, char **argv) {
       }//for result_4
    }
 }
-
