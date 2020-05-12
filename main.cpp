@@ -130,10 +130,10 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
   if (cnt<=0){
     
     if(flag){
-      if (list[x][cnt][i].first.first == xx) continue;
+//       if (list[x][cnt][i].first.first < x) continue;
     }
     else{
-      if (list[x][cnt][i].first.first <= xx) continue;
+      if (list[x][cnt][i].first.first < xx) continue;
 
     }
     
@@ -150,10 +150,10 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
     
     if(cnt<=1){
     if(flag){
-      if (list[x][cnt][i].first.first == xx || list[x][cnt-1][j].first.first == xx) continue;
+//       if (list[x][cnt][i].first.first < x || list[x][cnt-1][j].first.first< x) continue;
     }  
     else{
-      if (list[x][cnt][i].first.first <= xx || list[x][cnt-1][j].first.first <= xx) continue;
+      if (list[x][cnt][i].first.first < xx || list[x][cnt-1][j].first.first< xx) continue;
     }
       
     vector<pair<int,int> > path;
@@ -170,10 +170,10 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
 	if(cnt<=2){
 	  
 	  if(flag){
-      if (list[x][cnt][i].first.first == xx || list[x][cnt-1][j].first.first == xx || list[x][cnt-2][k].first.first == xx ) continue;
+//       if (list[x][cnt][i].first.first < x || list[x][cnt-1][j].first.first< x || list[x][cnt-2][k].first.first<x ) continue;
 	} 
 	  else{
-      if (list[x][cnt][i].first.first <= xx || list[x][cnt-1][j].first.first <= xx || list[x][cnt-2][k].first.first <= xx ) continue;
+      if (list[x][cnt][i].first.first < xx || list[x][cnt-1][j].first.first< xx || list[x][cnt-2][k].first.first<xx ) continue;
 	  } 
 	  
 	  vector<pair<int,int> > path;
@@ -205,7 +205,7 @@ void check1(int x, int y,  int lx,int ly, int money) {
 	  
 	  if (f1==f2) {
 
-	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,y);
+	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,x);
 	    vector<vector<pair<int,int> > >   routA = get2(0,y,ly,p2,visitA,x);
    
 	    for(int m=0;m<routB.size();m++){
@@ -249,7 +249,7 @@ void check1(int x, int y,  int lx,int ly, int money) {
 		 
 		 if(least)   {
 		 vector<int> path_copy;
-		 for(int i=0;i<ss;i++) path_copy.push_back(map[path[i].first]);
+		 for(int i=0;i<ss;i++) path_copy.push_back(path[i].first);
  		 result_1[ss-3].push_back(path_copy);  
 // 		 result[ss-3].push_back(path);
 		}
@@ -278,7 +278,7 @@ void check2(int x, int y,  int lx,int ly, int money) {
 	  
 	  if (f1==f2) {
 
-	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,y);
+	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,x);
 	    vector<vector<pair<int,int> > >   routA = get2(0,y,ly,p2,visitA,x);
    
 	    for(int m=0;m<routB.size();m++){
@@ -322,7 +322,7 @@ void check2(int x, int y,  int lx,int ly, int money) {
 		 
 		 if(least)   {
 		 vector<int> path_copy;
-		 for(int i=0;i<ss;i++) path_copy.push_back(map[path[i].first]);
+		 for(int i=0;i<ss;i++) path_copy.push_back(path[i].first);
 		 result_2[ss-3].push_back(path_copy);  
 // 		 result[ss-3].push_back(path);
 		}
@@ -351,7 +351,7 @@ void check3(int x, int y,  int lx,int ly, int money) {
 	  
 	  if (f1==f2) {
 
-	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,y);
+	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,x);
 	    vector<vector<pair<int,int> > >   routA = get2(0,y,ly,p2,visitA,x);
    
 	    for(int m=0;m<routB.size();m++){
@@ -395,7 +395,7 @@ void check3(int x, int y,  int lx,int ly, int money) {
 		 
 		 if(least)   {
 		 vector<int> path_copy;
-		 for(int i=0;i<ss;i++) path_copy.push_back(map[path[i].first]);
+		 for(int i=0;i<ss;i++) path_copy.push_back(path[i].first);
 		 result_3[ss-3].push_back(path_copy);  
 // 		 result[ss-3].push_back(path);
 		}
@@ -424,7 +424,7 @@ void check4(int x, int y,  int lx,int ly, int money) {
 	  
 	  if (f1==f2) {
 
-	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,y);
+	    vector<vector<pair<int,int> > >   routB = get2(1,x,lx,p1,visitB,x);
 	    vector<vector<pair<int,int> > >   routA = get2(0,y,ly,p2,visitA,x);
    
 	    for(int m=0;m<routB.size();m++){
@@ -468,7 +468,7 @@ void check4(int x, int y,  int lx,int ly, int money) {
 		 
 		 if(least)   {
 		 vector<int> path_copy;
-		 for(int i=0;i<ss;i++) path_copy.push_back(map[path[i].first]);
+		 for(int i=0;i<ss;i++) path_copy.push_back(path[i].first);
 		 result_4[ss-3].push_back(path_copy);  
 // 		 result[ss-3].push_back(path);
 		}
@@ -819,6 +819,11 @@ int main(int argc, char **argv) {
 // 	}
    
 
+for(int i=0;i<5;i++) for(int j=0;j<result_1[i].size();j++)  for(int k=0;k<result_1[i][j].size();k++)  result_1[i][j][k] = map[result_1[i][j][k]];
+for(int i=0;i<5;i++) for(int j=0;j<result_2[i].size();j++)  for(int k=0;k<result_2[i][j].size();k++)  result_2[i][j][k] = map[result_2[i][j][k]];
+for(int i=0;i<5;i++) for(int j=0;j<result_3[i].size();j++)  for(int k=0;k<result_3[i][j].size();k++)  result_3[i][j][k] = map[result_3[i][j][k]];
+for(int i=0;i<5;i++) for(int j=0;j<result_4[i].size();j++)  for(int k=0;k<result_4[i][j].size();k++)  result_4[i][j][k] = map[result_4[i][j][k]];
+    
 
 
     for(int i=0;i<5;i++) sort(result_1[i].begin(),result_1[i].end());
@@ -882,6 +887,8 @@ int main(int argc, char **argv) {
 	  }
 	}
 	printf("\n");
-      }//for result_4 
+      }//for result_4
+    
+    
    }
 }
