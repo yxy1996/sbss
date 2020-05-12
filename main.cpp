@@ -285,7 +285,7 @@ void* D4(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])   if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] ) DeepSearch2(key_list_check[0][i]);
+ for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])    DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
@@ -306,7 +306,7 @@ void* D2(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1]) if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] )   DeepSearch2(key_list_check[0][i]);
+ for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])         DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
@@ -604,14 +604,13 @@ int main(int argc, char **argv) {
 	
        for(int i=0;i<length;i++){
 
-	 map_record[key_list_check[0][i]][0].push_back(key_list_check[1][i]); 
+       int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list_check[1][i])-key_list1.begin();
+       if (key_list1[index] == key_list_check[1][i]) {
+       	 map_record[key_list_check[0][i]][0].push_back(key_list_check[1][i]); 
 	 map_record[key_list_check[0][i]][1].push_back(key_list_check[2][i]); 
        
 	 inverse_record[key_list_check[1][i]][0].push_back(key_list_check[0][i]);
 	 inverse_record[key_list_check[1][i]][1].push_back(key_list_check[2][i]);
-       int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list_check[1][i])-key_list1.begin();
-       if (key_list1[index] == key_list_check[1][i]) {
-       	 
 	 	 
 	  key_list_check[0][sub_length] = key_list_check[0][i];
 	  key_list_check[1][sub_length] = key_list_check[1][i];
