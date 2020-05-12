@@ -19,7 +19,6 @@ vector<int> key_list1;
 
 vector<pair<int,int> > map_record[N];
 vector<pair<int,int> > inverse_record[N]; 
-vector<pair<int,int> > *record;
 vector<pair<pair<int,int>,int > > graph;
 
 // vector<vector<int > >  results[5];
@@ -30,7 +29,6 @@ vector<vector<int > >  result_3[5];
 vector<vector<int > >  result_4[5];
 
 vector<vector<pair< pair<int, int>, int> > > visitA[N], visitB[N];
-vector<vector<pair< pair<int, int>, int> > > *visit;
 
 int key_list[3][N];
 int key_list2[N];
