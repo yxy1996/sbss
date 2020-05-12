@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <set>
 #include <pthread.h>
-#include <ctime>
-clock_t start,endss;
+// #include <ctime>
+// clock_t start,end;
 #define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
@@ -19,14 +19,18 @@ vector<int> key_list1;
 
 vector<pair<int,int> > map_record[N];
 vector<pair<int,int> > inverse_record[N]; 
+vector<pair<int,int> > *record;
 vector<pair<pair<int,int>,int > > graph;
 
+// vector<vector<int > >  results[5];
+// vector<vector<pair<int,int> > >  result[5];
 vector<vector<int > >  result_1[5];
 vector<vector<int > >  result_2[5];
 vector<vector<int > >  result_3[5];
 vector<vector<int > >  result_4[5];
 
 vector<vector<pair< pair<int, int>, int> > > visitA[N], visitB[N];
+vector<vector<pair< pair<int, int>, int> > > *visit;
 
 int key_list[3][N];
 int key_list2[N];
@@ -624,7 +628,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-    start = clock();
+//    start = clock();
    sort(all.begin(), all.end());
    
    for (int i=0; i<all.size();i++) {
@@ -822,39 +826,62 @@ int main(int argc, char **argv) {
     for(int i=0;i<5;i++) sort(result_3[i].begin(),result_3[i].end());
     for(int i=0;i<5;i++) sort(result_4[i].begin(),result_4[i].end());
 
-    endss = clock();
-    int sum=0;
-    for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size();
+//     end = clock();
+   int sum=0;
+   for(int i=0;i<5;i++)  sum  = sum + result_1[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_2[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_3[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_4[i].size();
 
-    printf("%d\n",sum);
-    cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
-    // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
-    // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
+   printf("%d\n",sum);
+//            cout<<(double)(end-start)/CLOCKS_PER_SEC<<endl;
+// 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
+// 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
       for(int j1=0;j1<result_1[i].size();j1++){
 	for(int k1=0;k1<result_1[i][j1].size();k1++){
-	  printf("%d", result_1[i][j1][k1]); 
-	  putchar(k1 == (result_1[i][j1].size()-1) ? '\n' : ',');
+	  if(k1==0){
+	    printf("%d",result_1[i][j1][k1]);
+	  }
+	  else{
+	    printf(",%d",result_1[i][j1][k1]);
+	  }
 	}
+	printf("\n");
       }   //for result_1
 
     for(int j2=0;j2<result_2[i].size();j2++){
 	for(int k2=0;k2<result_2[i][j2].size();k2++){
-       	  printf("%d", result_2[i][j2][k2]); 
-	  putchar(k2 == (result_2[i][j2].size()-1) ? '\n' : ',');
+	  if(k2==0){
+	    printf("%d",result_2[i][j2][k2]);
+	  }
+	  else{
+	    printf(",%d",result_2[i][j2][k2]);
+	  }
 	}
+	printf("\n");
       }//for result_2
     for(int j3=0;j3<result_3[i].size();j3++){
 	for(int k3=0;k3<result_3[i][j3].size();k3++){
-	  printf("%d", result_3[i][j3][k3]); 
-	  putchar(k3 == (result_1[i][j3].size()-1) ? '\n' : ',');
+	  if(k3==0){
+	    printf("%d",result_3[i][j3][k3]);
+	  }
+	  else{
+	    printf(",%d",result_3[i][j3][k3]);
+	  }
 	}
+	printf("\n");
       }//for result_3
     for(int j4=0;j4<result_4[i].size();j4++){
 	for(int k4=0;k4<result_4[i][j4].size();k4++){
-	  printf("%d", result_4[i][j4][k4]); 
-	  putchar(k4 == (result_4[i][j4].size()-1) ? '\n' : ',');
+	  if(k4==0){
+	    printf("%d",result_4[i][j4][k4]);
+	  }
+	  else{
+	    printf(",%d",result_4[i][j4][k4]);
+	  }
 	}
-      }//for result_4
+	printf("\n");
+      }//for result_4 
    }
 }
