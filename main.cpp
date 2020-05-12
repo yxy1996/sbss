@@ -4,11 +4,12 @@
 #include <algorithm>
 #include <cstdio>
 #include <pthread.h>
-// #include <ctime>
-// clock_t start,endss;
-#define Input "/data/test_data.txt"
-#define Output "/projects/student/result.txt"
-
+#include <ctime>
+clock_t start,endss;
+//#define Input "/data/test_data.txt"
+//#define Output "/projects/student/result.txt"
+#define Input "/root/sbss/38252/test_data.txt"
+#define Output "/root/sbss/result.txt"
 
 #define N 4200000
 
@@ -567,7 +568,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-//    start = clock();
+   start = clock();
    sort(all.begin(), all.end());
    for (int i=0; i<all.size();i++) {
 	  if (!i || all[i].first != all[i - 1].first)  map.push_back(all[i].first);	  
@@ -688,12 +689,12 @@ int main(int argc, char **argv) {
       pthread_join(t8, NULL);*/    
 //       clock_t start_4 = clock();
 
-//     endss = clock();
+   endss = clock();
    int sum=0;
    for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size() /*+ result_5[i].size() +result_6[i].size()+ result_7[i].size() + result_8[i].size() */;
 
            printf("%d\n",sum);
-//            cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+          cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
