@@ -53,7 +53,7 @@ bool comp2(pair<pair<int,int>,int> x, pair<pair<int,int>,int> y){
 }
 void DeepSearch1(int p_start, vector<pair<int, int> > tmp){
     visitA[p_start].resize(3);
-    //sort(tmp.begin(),tmp.end());
+    sort(tmp.begin(),tmp.end());
     
     for(int i=0;i<map_record[p_start].size();i++){
       int index1 = map_record[p_start][i].first;
