@@ -4,10 +4,8 @@
 #include <cstdio>
 #include <set>
 #include <pthread.h>
-// #include <ctime>
-// clock_t start,end;
-// #define Input "/data/test_data.txt"
-// #define Output "/projects/student/result.txt"
+#include <ctime>
+clock_t start,endss;
 #define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
@@ -21,7 +19,6 @@ vector<int> key_list1;
 
 vector<pair<int,int> > map_record[N];
 vector<pair<int,int> > inverse_record[N]; 
-
 vector<pair<pair<int,int>,int > > graph;
 
 vector<vector<int > >  result_1[5];
@@ -30,7 +27,6 @@ vector<vector<int > >  result_3[5];
 vector<vector<int > >  result_4[5];
 
 vector<vector<pair< pair<int, int>, int> > > visitA[N], visitB[N];
-
 
 int key_list[3][N];
 int key_list2[N];
@@ -50,7 +46,7 @@ bool comp2(pair<pair<int,int>,int> x, pair<pair<int,int>,int> y){
 }
 void DeepSearch1(int p_start, vector<pair<int,int> > tmp){
     visitA[p_start].resize(3);
-    //sort(tmp.begin(),tmp.end());
+    sort(tmp.begin(),tmp.end());
     
     for(int i=0;i<map_record[p_start].size();i++){
       int index1 = map_record[p_start][i].first;
@@ -126,10 +122,17 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
  
   int cnt = lx;
   int index = i;
-  bool which_case = flag?(list[x][cnt][i].first.first == xx):(list[x][cnt][i].first.first <= xx);
-  if (which_case) continue;
+  
+  if (cnt<=0){
+    
+    if(flag){
+      if (list[x][cnt][i].first.first == xx) continue;
+    }
+    else{
+      if (list[x][cnt][i].first.first <= xx) continue;
 
-  if (cnt<=0)
+    }
+    
     vector<pair<int,int> > path;
     path.push_back(  make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second ));    
     multi_path.push_back(path);
@@ -140,11 +143,15 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
   
   for (int j=index; j<list[x][cnt-1].size() && list[x][cnt-1][j].first.first== list[x][cnt-1][index].first.first; j++){
     if(j!=index && list[x][cnt-1][j].first.second == list[x][cnt-1][j-1].first.second) continue;
-
-    bool which_case = flag?(list[x][cnt-1][j].first.first == xx):(list[x][cnt-1][j].first.first <= xx);
-
-    if(which_case)  continue;
-    if(cnt<=1){      
+    
+    if(cnt<=1){
+    if(flag){
+      if (list[x][cnt][i].first.first == xx || list[x][cnt-1][j].first.first == xx) continue;
+    }  
+    else{
+      if (list[x][cnt][i].first.first <= xx || list[x][cnt-1][j].first.first <= xx) continue;
+    }
+      
     vector<pair<int,int> > path;
     path.push_back(make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second));
     path.push_back(make_pair(list[x][cnt-1][j].first.first,list[x][cnt-1][j].second));
@@ -155,16 +162,23 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
     int index1 = list[x][cnt-1][j].first.second;
       for (int k=index1;k<list[x][cnt-2].size() && list[x][cnt-2][k].first.first == list[x][cnt-2][index1].first.first; k++ ){
 	if(k!=index1 && list[x][cnt-2][k].first.second == list[x][cnt-2][k-1].first.second) continue;
-	bool which_case = (list[x][cnt-2][k].first.first == xx):(list[x][cnt-2][k].first.first <= xx);
-        if (which_case)  continue;
-
+	
+	if(cnt<=2){
+	  
+	  if(flag){
+      if (list[x][cnt][i].first.first == xx || list[x][cnt-1][j].first.first == xx || list[x][cnt-2][k].first.first == xx ) continue;
+	} 
+	  else{
+      if (list[x][cnt][i].first.first <= xx || list[x][cnt-1][j].first.first <= xx || list[x][cnt-2][k].first.first <= xx ) continue;
+	  } 
+	  
 	  vector<pair<int,int> > path;
 	  path.push_back(make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second));
 	  path.push_back(make_pair(list[x][cnt-1][j].first.first,list[x][cnt-1][j].second));
 	  path.push_back(make_pair(list[x][cnt-2][k].first.first,list[x][cnt-2][k].second));
 	  multi_path.push_back(path);
 	  continue;
-
+	} //if	
       } //for k 
   }//for j
   }//for i
@@ -610,7 +624,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-//    start = clock();
+   start = clock();
    sort(all.begin(), all.end());
    
    for (int i=0; i<all.size();i++) {
@@ -619,7 +633,7 @@ int main(int argc, char **argv) {
 	   (left? graph[index].first.second : graph[index].first.first) = map.size() - 1;
 	}
    
-
+   //=========================================================2.66================================//
    int F = graph.size();
    vector<int> outs;
    sort(graph.begin(),graph.end(),comp2);
@@ -637,6 +651,8 @@ int main(int argc, char **argv) {
        index_record = index1;
        if(!i || graph[i].first.first!= graph[i-1].first.first) key_list1.push_back(graph[i].first.first);
        
+//        key_list_try.push_back(make_pair(make_pair(graph[i].first.first,graph[i].first.second),graph[i].second));
+//        	 if (graph[i].first.first < graph[i].first.second){
        key_list[0][length] = graph[i].first.first;
        key_list[1][length] = graph[i].first.second;
        key_list[2][length] = graph[i].second;
@@ -659,12 +675,29 @@ int main(int argc, char **argv) {
 	  key_list_check[2][sub_length] = key_list[2][i];
 	  key_list2[sub_length]   =  key_list[1][i];
 
+// 	  key_list2[sub_length]   = key_list[1][i];
 	  sub_length++;
 
        }
        
        }
        
+       
+ 
+//      vector<pair<pair<int,int>,int> > key_list_try;
+//      for(int i=0;i<length;i++){
+//        int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list[1][i])-key_list1.begin();
+//        
+//        if (key_list1[index] == key_list[1][i])  key_list_try.push_back(make_pair(make_pair(key_list[0][i],key_list[1][i]),key_list[2][i]));
+//     } //for i in length
+    
+      
+//      for(int i = 0;i<key_list_try.size();i++)  if(!i || key_list_try[i].first.first != key_list_try[i-1].first.first)   DeepSearch2(key_list_try[i].first.first);
+//       
+// //      sort(key_list_try.begin(),key_list_try.end(),comp2);
+//      for(int i = 0;i<key_list_try.size();i++)  if(!i || key_list_try[i].first.first != key_list_try[i-1].first.first)  DeepSearch1(key_list_try[i].first.first/*,inverse_record[key_list_try[i].first.first]*/);
+//      
+//      
     sort(key_list2,key_list2+sub_length);
     pthread_attr_t attr;
     pthread_attr_init(&attr);
@@ -683,14 +716,55 @@ int main(int argc, char **argv) {
     pthread_join(t2, NULL);
     pthread_join(t4, NULL);
 //      clock_t  start_2 = clock();
- 
-//      clock_t start_3 = clock();
+
+//       
+//      for(int i = 0;i<length;i++)  if(!i || key_list[0][i]!=key_list[0][i-1])    DeepSearch2(key_list[0][i]);
+
+//      for(int i = 0;i<length;i++)  if(!i || key_list[0][i]!=key_list[0][i-1])    DeepSearch1(key_list[0][i],inverse_record[key_list[0][i]]);
+//      for(int i = 0;i<key_list1.size();i++)    DeepSearch2(key_list1[i]);
+// 
+//      for(int i = 0;i<key_list1.size();i++)   DeepSearch1(key_list1[i]);
+
+   //=========================================================2.66================================//
+   
+//    //=====================================0.35=====================================//
+//      int F = graph.size();
+//    int outs[F];
+//    for(int i=0;i<F;i++)   outs[i]=graph[i].first.second;   
+//    sort(outs,outs+F);
+//      sort(graph.begin(),graph.end());
+//      visit = visitA;
+//      record = map_record;
+//      for(int i = 0;i<F;i++) if(!i || outs[i]!=outs[i-1]) {DeepSearch2(outs[i]);}
+// 
+//      visit = visitB;
+//      record = inverse_record;
+//      for(int i = 0;i<graph.size();i++) if(!i || graph[i].first.first!=graph[i-1].first.first) {DeepSearch2(graph[i].first.first);}
+// 
+//      sort(graph.begin(),graph.end());
+    //=====================================0.35=====================================//
+
+//      for(int i = 0;i<graph.size();i++) if(!i || graph[i].first.second!=graph[i-1].first.second) {DeepSearch2(graph[i].first.second);}*/
+    
+   // for(int i = 0;i<ins.size();i++) if(!i || ins[i]!=ins[i-1]) {DeepSearch2(ins[i]);}
+
+  
+  /*
+     visit = visitB;
+     record = inverse_record;
+     for(int i = 0;i<map.size();i++)  DeepSearch2(i);
+    
+     visit = visitA;
+     record = map_record;
+     for(int i = 0;i<map.size();i++) DeepSearch2(i);*/
+// // 
+//              clock_t start_3 = clock();
 
        int line1,line2,line3;
        struct yxy part1,part2,part3,part4;
-       line1 = (int)(0.25*sub_length);  
-       line2 = (int)(0.5*sub_length);   
-       line3 = (int)(0.75*sub_length); 
+       line1 = (int)(0.25*sub_length);  //0, 0.0546
+       line2 = (int)(0.5*sub_length);   //0.13
+       line3 = (int)(0.75*sub_length); //0.2496
        part1.start = 0; 		part1.end = line1;
        part2.start = line1;		part2.end = line2;
        part3.start = line2;		part3.end = line3;
@@ -715,45 +789,95 @@ int main(int argc, char **argv) {
       
 //             clock_t start_4 = clock();
 
+//        for (int i=0;i<length;i++) {
+// // 	     for(int j=0;j<length;j++) if(key_list[1][i] == key_list[0][j]) {flag=1;break;}
+// 		int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list[1][i])-key_list1.begin();
+//  		if (key_list1[index] == key_list[1][i]) {
+// // 		  cout<<key_list1[i]<<","<<key_list2[i]<<endl;
+// 	 if (key_list[0][i]< key_list[1][i]){
+// 			check2(key_list[0][i], key_list[1][i], 0, 0, key_list[2][i]);
+// 			check2(key_list[0][i], key_list[1][i], 0, 1, key_list[2][i]);
+// 			check2(key_list[0][i], key_list[1][i], 0, 2, key_list[2][i]);
+// 			check2(key_list[0][i], key_list[1][i], 1, 2, key_list[2][i]);
+// 			check2(key_list[0][i], key_list[1][i], 2, 2, key_list[2][i]);
+// 	 }
+// 		}
+// 	 
+// 	}
+//     for (int i=0;i<graph.size();i++) {
+//  		if (graph[i].first.first <graph[i].first.second) {
+// 			check2(graph[i].first.first, graph[i].first.second, 0, 0, graph[i].second);
+// 			check2(graph[i].first.first, graph[i].first.second, 0, 1, graph[i].second);
+// 			check2(graph[i].first.first, graph[i].first.second, 0, 2, graph[i].second);
+// 			check2(graph[i].first.first, graph[i].first.second, 1, 2, graph[i].second);
+// 			check2(graph[i].first.first, graph[i].first.second, 2, 2, graph[i].second);
+// 		}
+// 	}
+   
+
+
+
     for(int i=0;i<5;i++) sort(result_1[i].begin(),result_1[i].end());
     for(int i=0;i<5;i++) sort(result_2[i].begin(),result_2[i].end());
     for(int i=0;i<5;i++) sort(result_3[i].begin(),result_3[i].end());
     for(int i=0;i<5;i++) sort(result_4[i].begin(),result_4[i].end());
 
-
- //     endss = clock();
+     endss = clock();
    int sum=0;
-   for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size() /*+ result_5[i].size() +result_6[i].size()+ result_7[i].size() + result_8[i].size() */;
+   for(int i=0;i<5;i++)  sum  = sum + result_1[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_2[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_3[i].size();
+   for(int i=0;i<5;i++)  sum  = sum + result_4[i].size();
 
-           printf("%d\n",sum);
-//            cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+   printf("%d\n",sum);
+   cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
       for(int j1=0;j1<result_1[i].size();j1++){
 	for(int k1=0;k1<result_1[i][j1].size();k1++){
-	  printf("%d", result_1[i][j1][k1]); 
-	  putchar(k1 == (result_1[i][j1].size()-1) ? '\n' : ',');
+	  if(k1==0){
+	    printf("%d",result_1[i][j1][k1]);
+	  }
+	  else{
+	    printf(",%d",result_1[i][j1][k1]);
+	  }
 	}
+	printf("\n");
       }   //for result_1
 
     for(int j2=0;j2<result_2[i].size();j2++){
 	for(int k2=0;k2<result_2[i][j2].size();k2++){
-       	  printf("%d", result_2[i][j2][k2]); 
-	  putchar(k2 == (result_2[i][j2].size()-1) ? '\n' : ',');
+	  if(k2==0){
+	    printf("%d",result_2[i][j2][k2]);
+	  }
+	  else{
+	    printf(",%d",result_2[i][j2][k2]);
+	  }
 	}
+	printf("\n");
       }//for result_2
     for(int j3=0;j3<result_3[i].size();j3++){
 	for(int k3=0;k3<result_3[i][j3].size();k3++){
-	  printf("%d", result_3[i][j3][k3]); 
-	  putchar(k3 == (result_1[i][j3].size()-1) ? '\n' : ',');
+	  if(k3==0){
+	    printf("%d",result_3[i][j3][k3]);
+	  }
+	  else{
+	    printf(",%d",result_3[i][j3][k3]);
+	  }
 	}
+	printf("\n");
       }//for result_3
     for(int j4=0;j4<result_4[i].size();j4++){
 	for(int k4=0;k4<result_4[i][j4].size();k4++){
-	  printf("%d", result_4[i][j4][k4]); 
-	  putchar(k4 == (result_4[i][j4].size()-1) ? '\n' : ',');
+	  if(k4==0){
+	    printf("%d",result_4[i][j4][k4]);
+	  }
+	  else{
+	    printf(",%d",result_4[i][j4][k4]);
+	  }
 	}
-      }//for result_4
+	printf("\n");
+      }//for result_4 
    }
 }
