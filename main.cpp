@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <ctime>
 clock_t start,endss;
-#define Input "/root/sbss/38252/test_data.txt"
+#define Input "/root/sbss/1004812/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
 
@@ -31,24 +31,24 @@ struct yxy{
 // bool comp2(pair<pair<int,int>,int> x, pair<pair<int,int>,int> y){
 //   return x.first.second < y.first.second;
 // }
-void DeepSearch1(int p_start, int tmp){
+void DeepSearch1(int p_start,vector<int> tmp){
     visitA[p_start].resize(3);
-//     sort(tmp.begin(),tmp.end());
+    sort(tmp.begin(),tmp.end());
         
     for(int i=0;i<map_record[p_start][0].size();i++){
       int index1 = map_record[p_start][0][i];
       
-      if (index1<=tmp )  continue;
+      if (index1<=tmp[0] )  continue;
       
       visitA[p_start][0].push_back(make_pair(make_pair(index1,0), map_record[p_start][1][i])); 
       
        for(int j=0;j<map_record[index1][0].size();j++){
 	 int index2 = map_record[index1][0][j];
-	 if(index2<=tmp || index2==p_start)  continue;
+	 if(index2<=tmp[0] || index2==p_start)  continue;
 	 visitA[p_start][1].push_back(make_pair(make_pair(index2,index1), map_record[index1][1][j]));
 	 
 	   for(int k=0;k<map_record[index2][0].size();k++){
-	     if(map_record[index2][0][k] <= tmp || map_record[index2][0][k] == p_start || map_record[index2][0][k] == index1  ) continue;
+	     if(map_record[index2][0][k] <= tmp[0] || map_record[index2][0][k] == p_start || map_record[index2][0][k] == index1  ) continue;
 	     visitA[p_start][2].push_back(make_pair(make_pair(map_record[index2][0][k],index2), map_record[index2][1][k]));   
 	}
       }
@@ -285,7 +285,7 @@ void* D4(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])   if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] ) DeepSearch2(key_list_check[0][i]);
+ for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])   DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
@@ -295,7 +295,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])     if(inverse_record[key_list2[i]][0][0]<key_list2[i]) DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0][0] );
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])      DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0] );
  pthread_exit(0); 
  return NULL;
   
@@ -306,7 +306,7 @@ void* D2(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1]) if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] )   DeepSearch2(key_list_check[0][i]);
+ for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])    DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
@@ -316,7 +316,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])   if(inverse_record[key_list2[i]][0][0]<key_list2[i]) DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0][0]);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0]);
  pthread_exit(0); 
  return NULL;
 }
@@ -567,7 +567,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-//    start = clock();
+   start = clock();
    sort(all.begin(), all.end());
    for (int i=0; i<all.size();i++) {
 	  if (!i || all[i].first != all[i - 1].first)  map.push_back(all[i].first);	  
@@ -604,14 +604,14 @@ int main(int argc, char **argv) {
 	
        for(int i=0;i<length;i++){
 
-	 map_record[key_list_check[0][i]][0].push_back(key_list_check[1][i]); 
+
+       int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list_check[1][i])-key_list1.begin();
+       if (key_list1[index] == key_list_check[1][i]) {
+    	 map_record[key_list_check[0][i]][0].push_back(key_list_check[1][i]); 
 	 map_record[key_list_check[0][i]][1].push_back(key_list_check[2][i]); 
        
 	 inverse_record[key_list_check[1][i]][0].push_back(key_list_check[0][i]);
 	 inverse_record[key_list_check[1][i]][1].push_back(key_list_check[2][i]);
-       int index = lower_bound(key_list1.begin() ,key_list1.end(),key_list_check[1][i])-key_list1.begin();
-       if (key_list1[index] == key_list_check[1][i]) {
-       	 
 	 	 
 	  key_list_check[0][sub_length] = key_list_check[0][i];
 	  key_list_check[1][sub_length] = key_list_check[1][i];
@@ -689,12 +689,12 @@ int main(int argc, char **argv) {
       pthread_join(t8, NULL);*/    
 //       clock_t start_4 = clock();
 
-     endss = clock();
+   endss = clock();
    int sum=0;
    for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size() /*+ result_5[i].size() +result_6[i].size()+ result_7[i].size() + result_8[i].size() */;
 
            printf("%d\n",sum);
-            cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+          cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
