@@ -4,8 +4,8 @@
 #include <cstdio>
 #include <set>
 #include <pthread.h>
-#include <ctime>
-clock_t start,endss;
+// #include <ctime>
+// clock_t start,end;
 #define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
@@ -19,14 +19,18 @@ vector<int> key_list1;
 
 vector<pair<int,int> > map_record[N];
 vector<pair<int,int> > inverse_record[N]; 
+vector<pair<int,int> > *record;
 vector<pair<pair<int,int>,int > > graph;
 
+// vector<vector<int > >  results[5];
+// vector<vector<pair<int,int> > >  result[5];
 vector<vector<int > >  result_1[5];
 vector<vector<int > >  result_2[5];
 vector<vector<int > >  result_3[5];
 vector<vector<int > >  result_4[5];
 
 vector<vector<pair< pair<int, int>, int> > > visitA[N], visitB[N];
+vector<vector<pair< pair<int, int>, int> > > *visit;
 
 int key_list[3][N];
 int key_list2[N];
@@ -624,7 +628,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-   start = clock();
+//    start = clock();
    sort(all.begin(), all.end());
    
    for (int i=0; i<all.size();i++) {
@@ -822,7 +826,7 @@ int main(int argc, char **argv) {
     for(int i=0;i<5;i++) sort(result_3[i].begin(),result_3[i].end());
     for(int i=0;i<5;i++) sort(result_4[i].begin(),result_4[i].end());
 
-     endss = clock();
+//     end = clock();
    int sum=0;
    for(int i=0;i<5;i++)  sum  = sum + result_1[i].size();
    for(int i=0;i<5;i++)  sum  = sum + result_2[i].size();
@@ -830,7 +834,7 @@ int main(int argc, char **argv) {
    for(int i=0;i<5;i++)  sum  = sum + result_4[i].size();
 
    printf("%d\n",sum);
-   cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+//            cout<<(double)(end-start)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
