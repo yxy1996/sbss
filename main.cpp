@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include <ctime>
 clock_t start,endss;
-#define Input "/root/sbss/test_data.txt"
+#define Input "/root/sbss/1004812/test_data.txt"
 #define Output "/root/sbss/student/result.txt"
 
 
@@ -127,7 +127,7 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
   bool which_case = flag?(list[x][cnt][i].first.first == xx):(list[x][cnt][i].first.first <= xx);
   if (which_case) continue;
 
-  if (cnt<=0)
+  if (cnt<=0){
     vector<pair<int,int> > path;
     path.push_back(  make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second ));    
     multi_path.push_back(path);
@@ -155,7 +155,7 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
     int index1 = list[x][cnt-1][j].first.second;
       for (int k=index1;k<list[x][cnt-2].size() && list[x][cnt-2][k].first.first == list[x][cnt-2][index1].first.first; k++ ){
 	if(k!=index1 && list[x][cnt-2][k].first.second == list[x][cnt-2][k-1].first.second) continue;
-	bool which_case = (list[x][cnt-2][k].first.first == xx):(list[x][cnt-2][k].first.first <= xx);
+	bool which_case = flag?(list[x][cnt-2][k].first.first == xx):(list[x][cnt-2][k].first.first <= xx);
         if (which_case)  continue;
 
 	  vector<pair<int,int> > path;
@@ -481,7 +481,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
  pthread_exit(0); 
  return NULL;
   
@@ -502,7 +502,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
  pthread_exit(0); 
  return NULL;
 }
