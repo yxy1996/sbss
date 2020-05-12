@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <cstdio>
 #include <pthread.h>
-// #include <ctime>
-// clock_t start,end;
-#define Input "/sbss/1004812/test_data.txt"
+#include <ctime>
+clock_t start,endss;
+#define Input "/root/sbss/1004812/test_data.txt"
 //#define Input "/home/yxy/桌面/test_data.txt"
 //#define Input "/home/yxy/桌面/456.txt"
 
-#define Output "/sbss/result.txt"
+#define Output "/root/sbss/result.txt"
 
 
 #define N 4200000
@@ -31,8 +31,9 @@ struct yxy{
   vector<vector<int > >* result;
 };
 
-void DeepSearch1(int p_start, vector<pair<int,int> > tmp){
+void DeepSearch1(int p_start, vector<pair<int,int> > *temp){
     visitA[p_start].resize(3);
+    vector<pair<int,int> > tmp = *temp;
     sort(tmp.begin(),tmp.end());
 
     int index1, index2;
@@ -261,7 +262,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],&inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
   
@@ -282,7 +283,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],&inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
 }
@@ -399,7 +400,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(x, graph.size() * 2 - 2));		
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
-    //    start = clock();
+   start = clock();
    sort(all.begin(), all.end());
    
    for (int i=0; i<all.size();i++) {
@@ -490,12 +491,12 @@ int main(int argc, char **argv) {
     pthread_join(t4, NULL);
       
     //     clock_t start_4 = clock();
-    //     end = clock();
+    endss = clock();
     int sum=0;
     for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size();
 
     printf("%d\n",sum);
-    //     cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+    cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
     // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
     // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
