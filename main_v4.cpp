@@ -286,7 +286,7 @@ void* D4(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1] )  if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] )  DeepSearch2(key_list_check[0][i]);
+ for(int i = L;i<*length;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1] )    DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
@@ -307,7 +307,7 @@ void* D2(void* args)
  length = (int*) args;
  int L = (int)0.5*(*length);
 
- for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])   if(*std::max_element(map_record[key_list_check[0][i]][0].begin(),map_record[key_list_check[0][i]][0].end()) > key_list_check[0][i] )     DeepSearch2(key_list_check[0][i]);
+ for(int i = 0;i<L;i++)  if(!i || key_list_check[0][i]!=key_list_check[0][i-1])      DeepSearch2(key_list_check[0][i]);
  pthread_exit(0); 
  return NULL;
   
