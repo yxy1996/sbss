@@ -6,8 +6,8 @@
 #include <pthread.h>
 #include <ctime>
 clock_t start,endss;
-#define Input "/root/sbss/1004812/test_data.txt"
-#define Output "/root/sbss/student/result.txt"
+#define Input "/root/sbss/38252/test_data.txt"
+#define Output "/root/sbss/result.txt"
 
 
 #define N 4200000
@@ -481,7 +481,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])  if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
  pthread_exit(0); 
  return NULL;
   
@@ -502,7 +502,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])   if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
  pthread_exit(0); 
  return NULL;
 }
