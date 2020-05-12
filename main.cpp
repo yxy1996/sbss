@@ -9,6 +9,11 @@ clock_t start,endss;
 #define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
+// #define Input "/media/yxy/软件1/华为挑战赛/2020HuaweiCodecraft-TestData-master/38252/test_data.txt"
+// //#define Input "/home/yxy/桌面/test_data.txt"
+// //#define Input "/home/yxy/桌面/456.txt"
+// 
+// #define Output "/media/yxy/软件1/华为挑战赛/pre_result/result.txt"
 
 #define N 4200000
 
@@ -46,24 +51,24 @@ bool comp(pair<pair<int, int>,int> x, int y){
 bool comp2(pair<pair<int,int>,int> x, pair<pair<int,int>,int> y){
   return x.first.second < y.first.second;
 }
-void DeepSearch1(int p_start, int tmp){
+void DeepSearch1(int p_start, vector<pair<int, int> > tmp){
     visitA[p_start].resize(3);
     //sort(tmp.begin(),tmp.end());
     
     for(int i=0;i<map_record[p_start].size();i++){
       int index1 = map_record[p_start][i].first;
       
-      if (index1<=tmp)  continue;
+      if (index1<=tmp[0].first)  continue;
       
       visitA[p_start][0].push_back(make_pair(make_pair(index1,0), map_record[p_start][i].second)); 
       
        for(int j=0;j<map_record[index1].size();j++){
 	 int index2 = map_record[index1][j].first;
-	 if(index2==p_start || index2<=tmp)  continue;
+	 if(index2==p_start || index2<=tmp[0].first)  continue;
 	 visitA[p_start][1].push_back(make_pair(make_pair(index2,index1), map_record[index1][j].second));
 	 
 	   for(int k=0;k<map_record[index2].size();k++){
-	     if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp ) continue;
+	     if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp[0].first ) continue;
 	     visitA[p_start][2].push_back(make_pair(make_pair(map_record[index2][k].first,index2), map_record[index2][k].second));   
 	}
       }
@@ -481,7 +486,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])  if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])  if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
   
@@ -502,7 +507,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])   if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]][0].first);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])   if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
 }
