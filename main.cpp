@@ -840,48 +840,28 @@ int main(int argc, char **argv) {
    for(int i=0;i<5;i++){
       for(int j1=0;j1<result_1[i].size();j1++){
 	for(int k1=0;k1<result_1[i][j1].size();k1++){
-	  if(k1==0){
-	    printf("%d",result_1[i][j1][k1]);
-	  }
-	  else{
-	    printf(",%d",result_1[i][j1][k1]);
-	  }
+	    printf("%d", result_2[i][j1][k1]); 
+	    putchar(k1 == (result_2[i][j1].size()-1) ? '\n' : ',');
 	}
-	printf("\n");
       }   //for result_1
 
     for(int j2=0;j2<result_2[i].size();j2++){
 	for(int k2=0;k2<result_2[i][j2].size();k2++){
-	  if(k2==0){
-	    printf("%d",result_2[i][j2][k2]);
-	  }
-	  else{
-	    printf(",%d",result_2[i][j2][k2]);
-	  }
+	  printf("%d", result_2[i][j2][k2]); 
+	  putchar(k2 == (result_2[i][j2].size()-1) ? '\n' : ',');
 	}
-	printf("\n");
       }//for result_2
     for(int j3=0;j3<result_3[i].size();j3++){
 	for(int k3=0;k3<result_3[i][j3].size();k3++){
-	  if(k3==0){
-	    printf("%d",result_3[i][j3][k3]);
-	  }
-	  else{
-	    printf(",%d",result_3[i][j3][k3]);
-	  }
+	  printf("%d", result_3[i][j3][k3]); 
+	  putchar(k3 == (result_3[i][j3].size()-1) ? '\n' : ',');
 	}
-	printf("\n");
       }//for result_3
     for(int j4=0;j4<result_4[i].size();j4++){
 	for(int k4=0;k4<result_4[i][j4].size();k4++){
-	  if(k4==0){
-	    printf("%d",result_4[i][j4][k4]);
-	  }
-	  else{
-	    printf(",%d",result_4[i][j4][k4]);
-	  }
+	  printf("%d", result_4[i][j4][k4]); 
+	  putchar(k4 == (result_4[i][j4].size()-1) ? '\n' : ',');
 	}
-	printf("\n");
       }//for result_4 
    }
 }
