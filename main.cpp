@@ -4,16 +4,13 @@
 #include <cstdio>
 #include <set>
 #include <pthread.h>
-#include <ctime>
-clock_t start,endss;
+// #include <ctime>
+// clock_t start,end;
+// #define Input "/data/test_data.txt"
+// #define Output "/projects/student/result.txt"
 #define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
-// #define Input "/media/yxy/软件1/华为挑战赛/2020HuaweiCodecraft-TestData-master/38252/test_data.txt"
-// //#define Input "/home/yxy/桌面/test_data.txt"
-// //#define Input "/home/yxy/桌面/456.txt"
-// 
-// #define Output "/media/yxy/软件1/华为挑战赛/pre_result/result.txt"
 
 #define N 4200000
 
@@ -51,9 +48,9 @@ bool comp(pair<pair<int, int>,int> x, int y){
 bool comp2(pair<pair<int,int>,int> x, pair<pair<int,int>,int> y){
   return x.first.second < y.first.second;
 }
-void DeepSearch1(int p_start, vector<pair<int, int> > tmp){
+void DeepSearch1(int p_start, vector<pair<int,int> > tmp){
     visitA[p_start].resize(3);
-    sort(tmp.begin(),tmp.end());
+    //sort(tmp.begin(),tmp.end());
     
     for(int i=0;i<map_record[p_start].size();i++){
       int index1 = map_record[p_start][i].first;
@@ -68,7 +65,7 @@ void DeepSearch1(int p_start, vector<pair<int, int> > tmp){
 	 visitA[p_start][1].push_back(make_pair(make_pair(index2,index1), map_record[index1][j].second));
 	 
 	   for(int k=0;k<map_record[index2].size();k++){
-	     if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp[0].first ) continue;
+	     if(map_record[index2][k].first == p_start || map_record[index2][k].first == index1 || map_record[index2][k].first <= tmp[0].first  ) continue;
 	     visitA[p_start][2].push_back(make_pair(make_pair(map_record[index2][k].first,index2), map_record[index2][k].second));   
 	}
       }
@@ -132,7 +129,7 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
   bool which_case = flag?(list[x][cnt][i].first.first == xx):(list[x][cnt][i].first.first <= xx);
   if (which_case) continue;
 
-  if (cnt<=0){
+  if (cnt<=0)
     vector<pair<int,int> > path;
     path.push_back(  make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second ));    
     multi_path.push_back(path);
@@ -142,13 +139,11 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
   index = list[x][cnt][index].first.second;
   
   for (int j=index; j<list[x][cnt-1].size() && list[x][cnt-1][j].first.first== list[x][cnt-1][index].first.first; j++){
-
     if(j!=index && list[x][cnt-1][j].first.second == list[x][cnt-1][j-1].first.second) continue;
 
     bool which_case = flag?(list[x][cnt-1][j].first.first == xx):(list[x][cnt-1][j].first.first <= xx);
 
     if(which_case)  continue;
-
     if(cnt<=1){      
     vector<pair<int,int> > path;
     path.push_back(make_pair(list[x][cnt][i].first.first, list[x][cnt][i].second));
@@ -160,7 +155,7 @@ vector<vector<pair<int,int> > >  get2(bool flag, int x, int lx, int p, vector< v
     int index1 = list[x][cnt-1][j].first.second;
       for (int k=index1;k<list[x][cnt-2].size() && list[x][cnt-2][k].first.first == list[x][cnt-2][index1].first.first; k++ ){
 	if(k!=index1 && list[x][cnt-2][k].first.second == list[x][cnt-2][k-1].first.second) continue;
-	bool which_case = flag?(list[x][cnt-2][k].first.first == xx):(list[x][cnt-2][k].first.first <= xx);
+	bool which_case = (list[x][cnt-2][k].first.first == xx):(list[x][cnt-2][k].first.first <= xx);
         if (which_case)  continue;
 
 	  vector<pair<int,int> > path;
@@ -486,7 +481,7 @@ void* D3(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])  if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = L;i<*length;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
   
@@ -507,7 +502,7 @@ void* D1(void* args)
  int* length;
  length = (int*) args;
  int L = (int)0.5*(*length);
- for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])   if(inverse_record[key_list2[i]].size()!=0)  DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
+ for(int i = 0;i<L;i++)    if(!i || key_list2[i]!=key_list2[i-1])    DeepSearch1(key_list2[i],inverse_record[key_list2[i]]);
  pthread_exit(0); 
  return NULL;
 }
@@ -615,7 +610,7 @@ int main(int argc, char **argv) {
 		all.push_back(make_pair(y, graph.size() * 2 - 1));	
    }
 //    
-   start = clock();
+//    start = clock();
    sort(all.begin(), all.end());
    
    for (int i=0; i<all.size();i++) {
@@ -726,12 +721,12 @@ int main(int argc, char **argv) {
     for(int i=0;i<5;i++) sort(result_4[i].begin(),result_4[i].end());
 
 
-  endss = clock();
+ //     endss = clock();
    int sum=0;
    for(int i=0;i<5;i++)  sum  = sum + result_1[i].size()+ result_2[i].size()+ result_3[i].size()+ result_4[i].size() /*+ result_5[i].size() +result_6[i].size()+ result_7[i].size() + result_8[i].size() */;
 
            printf("%d\n",sum);
-           cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
+//            cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"dfs:"<<(double)(start_2-start_1)/CLOCKS_PER_SEC<<endl;
 // 	   cout<<"check:"<<(double)(start_4-start_3)/CLOCKS_PER_SEC<<endl;
    for(int i=0;i<5;i++){
