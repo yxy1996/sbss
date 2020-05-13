@@ -41,11 +41,11 @@ void DeepSearch1(int p_start, int tmp){
 		
 		for(int j=0;j<map_record[index1][0].size();j++){
 		int index2 = map_record[index1][0][j];
-		if(index2<=tmp || index2==p_start || index1 == index2)  continue;
+		if(index2<=tmp || index2==p_start )  continue;
 		visitA[p_start][1].push_back(make_pair(make_pair(index2,index1), map_record[index1][1][j]));
 		
 		for(int k=0;k<map_record[index2][0].size();k++){
-			if(map_record[index2][0][k] <= tmp || map_record[index2][0][k] == p_start || map_record[index2][0][k] == index1 || map_record[index2][0][k]  == index2) continue;
+			if(map_record[index2][0][k] <= tmp || map_record[index2][0][k] == p_start ) continue;
 			visitA[p_start][2].push_back(make_pair(make_pair(map_record[index2][0][k],index2), map_record[index2][1][k]));   
 		}
 		}
@@ -74,11 +74,11 @@ void DeepSearch2(int p_start){
 		
 		for(int j=0;j<inverse_record[index1][0].size();j++){
 			int index2 = inverse_record[index1][0][j];
-			if(index2<=p_start || index2 == index1) continue;
+			if(index2<=p_start ) continue;
 			
 			visitB[p_start][1].push_back(make_pair(make_pair(index2,index1), inverse_record[index1][1][j]));
 			for(int k=0;k<inverse_record[index2][0].size();k++){
-				if( inverse_record[index2][0][k] <= p_start ||inverse_record[index2][0][k] == index1 || inverse_record[index2][0][k]== index2 ) continue;
+				if( inverse_record[index2][0][k] <= p_start  ) continue;
 				visitB[p_start][2].push_back(make_pair(make_pair(inverse_record[index2][0][k],index2), inverse_record[index2][1][k]));   
 			}
 		}
