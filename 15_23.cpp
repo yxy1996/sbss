@@ -8,7 +8,7 @@
 clock_t start,endss;
 // #define Input "/data/test_data.txt"
 // #define Output "/projects/student/result.txt"
-#define Input "/root/sbss/3512444/test_data.txt"
+#define Input "/root/sbss/38252/test_data.txt"
 #define Output "/root/sbss/result.txt"
 
 #define N 4200000
