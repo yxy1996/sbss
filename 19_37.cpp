@@ -715,7 +715,7 @@ int main(int argc, char **argv) {
 	out::init(Output, "w");
 	out::write(to_string(sum)+"\n");
 		//   cout<<(double)(endss-start)/CLOCKS_PER_SEC<<endl;
-		start = clock();
+		//start = clock();
 
 		// length = 3
 		for(int j=0;j<result_1[0].size();j++){
